@@ -32,9 +32,32 @@ class Food:
         self.coordinates = [x,y]
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
-def next_turn():
-    pass
+def next_turn(snake, food):
 
+    x, y = snake.coordinates[0]
+
+    if direction == "up":
+        y-= SPACE_SIZE
+    elif direction == "down":
+        y += SPACE_SIZE
+    elif direction == "left":
+        x -= SPACE_SIZE
+    elif direction == "right":
+        x += SPACE_SIZE
+
+    snake.coordinates.insert(0, (x, y))
+
+    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+
+    snake.squares.insert(0, square)
+
+    window.after(SPEED, next_turn, snake, food)
+
+    del snake.coordinates[-1]
+
+    canvas.delete(snake.squares[-1])
+
+    del snake.squares[-1]
 def change_direction(new_direction):
     pass
 
@@ -69,7 +92,12 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
+
 snake = Snake()
 food = Food()
-
+next_turn(snake, food)
 window.mainloop()
