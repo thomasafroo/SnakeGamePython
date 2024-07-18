@@ -1,6 +1,6 @@
 from tkinter import *
 import random
-
+# constants
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
 SPEED = 50
@@ -9,7 +9,7 @@ BODY_PARTS = 3
 SNAKE_COLOR = "#00FF00"
 FOOD_COLOR = "#FF0000"
 BACKGROUND_COLOR = "#000000"
-
+# main classes
 class Snake:
     def __init__(self):
         self.body_size = BODY_PARTS
@@ -32,6 +32,7 @@ class Food:
         self.coordinates = [x,y]
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
+# game events
 def next_turn(snake, food):
 
     x, y = snake.coordinates[0]
@@ -67,7 +68,7 @@ def check_collisions():
 def game_over():
     pass
 
-
+# Window formatting
 window = Tk()
 window.title("Snake game")
 window.resizable(False, False)
@@ -92,6 +93,7 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+# controls
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
