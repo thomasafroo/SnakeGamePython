@@ -14,7 +14,10 @@ class Snake:
     pass
 
 class Food:
-    pass
+    def __init__(self):
+
+        x = random.randint(0, (GAME_WIDTH / SPACE_SIZE) - 1) * SPACE_SIZE
+        y = random.randint(0, (GAME_HEIGHT / SPACE_SIZE) - 1) * SPACE_SIZE
 
 def next_turn():
     pass
