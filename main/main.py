@@ -48,9 +48,22 @@ def next_turn(snake, food):
 
     snake.coordinates.insert(0, (x, y))
 
-    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+    if x == food.coordinates[0] and y == food.coordinates[1]:
 
-    snake.squares.insert(0, square)
+        global score
+
+        score += 1
+
+        label.config(text="Score:{}".format(score))
+
+        canvas.delete("food")
+
+        food = Food()
+    else:
+
+        square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+
+        snake.squares.insert(0, square)
 
     window.after(SPEED, next_turn, snake, food)
 
@@ -59,6 +72,7 @@ def next_turn(snake, food):
     canvas.delete(snake.squares[-1])
 
     del snake.squares[-1]
+
 def change_direction(new_direction):
     global direction
 
@@ -74,6 +88,7 @@ def change_direction(new_direction):
     if new_direction == 'down':
         if direction != 'up':
             direction = new_direction
+
 def check_collisions():
     pass
 
