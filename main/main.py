@@ -3,11 +3,11 @@ import random
 # constants
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED = 50
+SPEED = 100
 SPACE_SIZE = 50
 BODY_PARTS = 3
-SNAKE_COLOR = "#00FF00"
-FOOD_COLOR = "#FF0000"
+SNAKE_COLOR = "#0000FF"
+FOOD_COLOR = "#FFFF00"
 BACKGROUND_COLOR = "#000000"
 # main classes
 class Snake:
@@ -48,6 +48,10 @@ def next_turn(snake, food):
 
     snake.coordinates.insert(0, (x, y))
 
+    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+
+    snake.squares.insert(0, square)
+
     if x == food.coordinates[0] and y == food.coordinates[1]:
 
         global score
@@ -60,18 +64,17 @@ def next_turn(snake, food):
 
         food = Food()
     else:
+        del snake.coordinates[-1]
 
-        square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+        canvas.delete(snake.squares[-1])
 
-        snake.squares.insert(0, square)
+        del snake.squares[-1]
 
-    window.after(SPEED, next_turn, snake, food)
+    if check_collisions(snake):
+        game_over()
+    else:
+        window.after(SPEED, next_turn, snake, food)
 
-    del snake.coordinates[-1]
-
-    canvas.delete(snake.squares[-1])
-
-    del snake.squares[-1]
 
 def change_direction(new_direction):
     global direction
@@ -82,18 +85,34 @@ def change_direction(new_direction):
     elif new_direction == 'right':
         if direction != 'left':
             direction = new_direction
-    if new_direction == 'up':
+    elif new_direction == 'up':
         if direction != 'down':
             direction = new_direction
-    if new_direction == 'down':
+    elif new_direction == 'down':
         if direction != 'up':
             direction = new_direction
 
-def check_collisions():
-    pass
+def check_collisions(snake):
+
+    x, y = snake.coordinates[0]
+
+    if x < 0 or x >= GAME_WIDTH:
+        print("GAME OVER")
+        return True;
+    elif y < 0 or y >= GAME_HEIGHT:
+        print("GAME OVER")
+        return True;
+
+    for body_part in snake.coordinates[1:]:
+        if (x == body_part[0]) and y == body_part[1]:
+            print("GAME OVER")
+            return True
+    return False
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
+                       font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
 
 # Window formatting
 window = Tk()
