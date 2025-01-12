@@ -15,9 +15,7 @@ A simple Snake game implemented in Python using Tkinter. Control the snake to co
 1. Clone or download the repository.
 2. Open a terminal and navigate to the project directory.
 3. Run the game with:
-   ```
-   python snake_game.py
-   ```
+   ```python snake_game.py```
 
 ## Controls
 - Arrow Keys to move: `Up`, `Down`, `Left`, `Right`.
@@ -27,15 +25,6 @@ Adjust the following constants in the code:
 - `GAME_WIDTH` and `GAME_HEIGHT`: Game window size.
 - `SPEED`: Game speed (lower value = faster).
 - `SNAKE_COLOR` and `FOOD_COLOR`: Colors of snake and food.
-
-## Future Enhancements
-- Difficulty levels.
-- Obstacles.
-- Sound effects.
-- High score leaderboard.
-
-## License
-MIT License. Feel free to use and modify.
 
 Enjoy playing!
 
